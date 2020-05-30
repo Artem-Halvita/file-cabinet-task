@@ -18,7 +18,8 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
             new Tuple<string, Action<string>>("stat", Stat),
-            new Tuple<string, Action<string>>("create", Create)
+            new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("list", List)
         };
 
         private static string[][] helpMessages = new string[][]
@@ -27,6 +28,9 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints record statistics", "The 'stat' command prints record statistics."}
         };
+
+        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         public static void Main(string[] args)
         {
@@ -103,7 +107,6 @@ namespace FileCabinetApp
 
         private static void Stat(string parameters)
         {
-            FileCabinetService fileCabinetService = new FileCabinetService();
             var recordsCount = fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
@@ -115,12 +118,20 @@ namespace FileCabinetApp
             string lastName = Console.ReadLine();
             Console.Write("Date of birth: ");
             string dateInput = Console.ReadLine();
-            DateTime dateOfBirth = DateTime.Parse(dateInput, new CultureInfo("ru-RU"));
+            DateTime dateOfBirth = DateTime.Parse(dateInput, cultureInfo);
 
-            FileCabinetService fileCabinetService = new FileCabinetService();
             var id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
 
             Console.WriteLine($"Record #{id} is created.");
         }
-    }
+        private static void List(string parameters)
+        {
+            var records = fileCabinetService.GetRecords();
+
+            foreach (var item in records)
+            {
+                Console.WriteLine($"{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}");
+            }
+        }
+    }   
 }
