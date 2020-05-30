@@ -114,13 +114,27 @@ namespace FileCabinetApp
         {
             Console.Write("First name: ");
             string firstName = Console.ReadLine();
+
             Console.Write("Last name: ");
             string lastName = Console.ReadLine();
+
             Console.Write("Date of birth: ");
             string dateInput = Console.ReadLine();
             DateTime dateOfBirth = DateTime.Parse(dateInput, cultureInfo);
 
-            var id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
+            Console.Write("Age: ");
+            string ageInput = Console.ReadLine();
+            short age = short.Parse(ageInput, cultureInfo);
+
+            Console.WriteLine("Money: ");
+            string moneyInput = Console.ReadLine();
+            decimal money = decimal.Parse(moneyInput, cultureInfo);
+
+            Console.WriteLine("Any letter: ");
+            string letterInput = Console.ReadLine();
+            char letter = char.Parse(letterInput);
+
+            var id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, age, money, letter);
 
             Console.WriteLine($"Record #{id} is created.");
         }
@@ -130,7 +144,7 @@ namespace FileCabinetApp
 
             foreach (var item in records)
             {
-                Console.WriteLine($"{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}");
+                Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
             }
         }
     }   
