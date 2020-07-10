@@ -114,25 +114,61 @@ namespace FileCabinetApp
         {
             Console.Write("First name: ");
             string firstName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+            {
+                Console.WriteLine("Incorrect entry. Try again.");
+                Console.Write("First name: ");
+                firstName = Console.ReadLine();
+            }
 
             Console.Write("Last name: ");
             string lastName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+            {
+                Console.WriteLine("Incorrect entry. Try again.");
+                Console.Write("Last name: ");
+                lastName = Console.ReadLine();
+            }
 
             Console.Write("Date of birth: ");
             string dateInput = Console.ReadLine();
-            DateTime dateOfBirth = DateTime.Parse(dateInput, cultureInfo);
+            DateTime dateOfBirth;
+            while (!DateTime.TryParse(dateInput, out dateOfBirth) || dateOfBirth <= new DateTime(1950, 1, 1) || dateOfBirth >= DateTime.Now)
+            {
+                Console.WriteLine("Incorrect entry. Try again.");
+                Console.Write("Date of birth: ");
+                dateInput = Console.ReadLine();
+            }
 
             Console.Write("Age: ");
             string ageInput = Console.ReadLine();
-            short age = short.Parse(ageInput, cultureInfo);
+            short age;
+            while (!short.TryParse(ageInput, out age) || age < 12 || age > 99)
+            {
+                Console.WriteLine("Incorrect entry. Try again.");
+                Console.Write("Age: ");
+                ageInput = Console.ReadLine();
+            }
 
-            Console.WriteLine("Money: ");
+            Console.Write("Money: ");
             string moneyInput = Console.ReadLine();
-            decimal money = decimal.Parse(moneyInput, cultureInfo);
+            decimal money;
+            while (!decimal.TryParse(moneyInput, out money) || money < 0)
+            {
+                Console.WriteLine("Incorrect entry. Try again.");
+                Console.Write("Money: ");
+                moneyInput = Console.ReadLine();
+            }
 
-            Console.WriteLine("Any letter: ");
+            Console.Write("Any letter: ");
             string letterInput = Console.ReadLine();
-            char letter = char.Parse(letterInput);
+            char letter;
+            while (!char.TryParse(letterInput, out letter) || !char.IsLetter(letter))
+            {
+                Console.WriteLine("Incorrect entry. Try again.");
+                Console.Write("Letter: ");
+                letterInput = Console.ReadLine();
+            }
 
             var id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, age, money, letter);
 
