@@ -19,7 +19,8 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("exit", Exit),
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
-            new Tuple<string, Action<string>>("list", List)
+            new Tuple<string, Action<string>>("list", List),
+            new Tuple<string, Action<string>>("edit", Edit)
         };
 
         private static string[][] helpMessages = new string[][]
@@ -110,6 +111,7 @@ namespace FileCabinetApp
             var recordsCount = fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
+
         private static void Create(string parameters)
         {
             Console.Write("First name: ");
@@ -174,6 +176,7 @@ namespace FileCabinetApp
 
             Console.WriteLine($"Record #{id} is created.");
         }
+
         private static void List(string parameters)
         {
             var records = fileCabinetService.GetRecords();
@@ -181,6 +184,86 @@ namespace FileCabinetApp
             foreach (var item in records)
             {
                 Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
+            }
+        }
+
+        private static void Edit(string parameters)
+        {
+            int id;
+            if (!string.IsNullOrEmpty(parameters) && int.TryParse(parameters, out id))
+            {
+                if (id > 0 && id <= fileCabinetService.GetStat())
+                {
+                    Console.Write("First name: ");
+                    string firstName = Console.ReadLine();
+                    while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+                    {
+                        Console.WriteLine("Incorrect entry. Try again.");
+                        Console.Write("First name: ");
+                        firstName = Console.ReadLine();
+                    }
+
+                    Console.Write("Last name: ");
+                    string lastName = Console.ReadLine();
+                    while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+                    {
+                        Console.WriteLine("Incorrect entry. Try again.");
+                        Console.Write("Last name: ");
+                        lastName = Console.ReadLine();
+                    }
+
+                    Console.Write("Date of birth: ");
+                    string dateInput = Console.ReadLine();
+                    DateTime dateOfBirth;
+                    while (!DateTime.TryParse(dateInput, out dateOfBirth) || dateOfBirth <= new DateTime(1950, 1, 1) || dateOfBirth >= DateTime.Now)
+                    {
+                        Console.WriteLine("Incorrect entry. Try again.");
+                        Console.Write("Date of birth: ");
+                        dateInput = Console.ReadLine();
+                    }
+
+                    Console.Write("Age: ");
+                    string ageInput = Console.ReadLine();
+                    short age;
+                    while (!short.TryParse(ageInput, out age) || age < 12 || age > 99)
+                    {
+                        Console.WriteLine("Incorrect entry. Try again.");
+                        Console.Write("Age: ");
+                        ageInput = Console.ReadLine();
+                    }
+
+                    Console.Write("Money: ");
+                    string moneyInput = Console.ReadLine();
+                    decimal money;
+                    while (!decimal.TryParse(moneyInput, out money) || money < 0)
+                    {
+                        Console.WriteLine("Incorrect entry. Try again.");
+                        Console.Write("Money: ");
+                        moneyInput = Console.ReadLine();
+                    }
+
+                    Console.Write("Any letter: ");
+                    string letterInput = Console.ReadLine();
+                    char letter;
+                    while (!char.TryParse(letterInput, out letter) || !char.IsLetter(letter))
+                    {
+                        Console.WriteLine("Incorrect entry. Try again.");
+                        Console.Write("Letter: ");
+                        letterInput = Console.ReadLine();
+                    }
+
+                    fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, age, money, letter);
+
+                    Console.WriteLine($"Record #{id} is edited.");
+                }
+                else
+                {
+                    Console.WriteLine($"#{id} not found.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"There is no explanation for '{parameters}' command.");
             }
         }
     }   

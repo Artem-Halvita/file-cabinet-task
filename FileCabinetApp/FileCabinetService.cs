@@ -72,6 +72,26 @@ namespace FileCabinetApp
 
             return record.Id;
         }
+        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
+        {
+            if (GetStat() < id)
+            {
+                throw new ArgumentException("Not exist", nameof(id));
+            }
+
+            list.RemoveAt(id - 1);
+            list.Insert(id - 1, new FileCabinetRecord()
+            {
+                Id = id,
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Age = age,
+                Money = money,
+                Letter = letter
+            });
+
+        }
         public FileCabinetRecord[] GetRecords()
         {
             return list.ToArray();
