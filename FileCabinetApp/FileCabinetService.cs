@@ -96,6 +96,10 @@ namespace FileCabinetApp
         {
             return list.FindAll(i => i.FirstName == firstName).ToArray();
         }
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            return list.FindAll(i => i.LastName == lastName).ToArray();
+        }
         public FileCabinetRecord[] GetRecords()
         {
             return list.ToArray();

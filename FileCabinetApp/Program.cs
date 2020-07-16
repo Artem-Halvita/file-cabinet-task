@@ -34,6 +34,7 @@ namespace FileCabinetApp
         private static string[][] findProperties = new string[][]
         {
             new string[] { "firstname" },
+            new string[] { "lastname" },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -281,6 +282,13 @@ namespace FileCabinetApp
                 if (index == 0)
                 {
                     foreach (var item in fileCabinetService.FindByFirstName(parameters.Split(' ')[1]))
+                    {
+                        Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
+                    };
+                }
+                if (index == 1)
+                {
+                    foreach (var item in fileCabinetService.FindByLastName(parameters.Split(' ')[1]))
                     {
                         Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
                     };
