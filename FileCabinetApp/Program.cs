@@ -35,6 +35,7 @@ namespace FileCabinetApp
         {
             new string[] { "firstname" },
             new string[] { "lastname" },
+            new string[] { "dateOfBirth" }
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -293,6 +294,14 @@ namespace FileCabinetApp
                         Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
                     };
                 }
+                if (index == 2)
+                {
+                    foreach (var item in fileCabinetService.FindByDateOfBirth(parameters.Split(' ')[1]))
+                    {
+                        Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
+                    };
+                }
+            }
             else
             {
                 Console.WriteLine("Enter property and query.");

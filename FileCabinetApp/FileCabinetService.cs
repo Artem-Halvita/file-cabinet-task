@@ -100,6 +100,13 @@ namespace FileCabinetApp
         {
             return list.FindAll(i => i.LastName == lastName).ToArray();
         }
+        public FileCabinetRecord[] FindByDateOfBirth(string inputDateOfBirth)
+        {
+            DateTime dateOfBirth;
+            bool isParsed = DateTime.TryParse(inputDateOfBirth, out dateOfBirth);
+
+            return list.FindAll(i => i.DateOfBirth == dateOfBirth).ToArray();
+        }
         public FileCabinetRecord[] GetRecords()
         {
             return list.ToArray();
