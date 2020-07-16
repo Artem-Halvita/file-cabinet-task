@@ -92,6 +92,10 @@ namespace FileCabinetApp
             });
 
         }
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            return list.FindAll(i => i.FirstName == firstName).ToArray();
+        }
         public FileCabinetRecord[] GetRecords()
         {
             return list.ToArray();

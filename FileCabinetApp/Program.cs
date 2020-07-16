@@ -20,7 +20,8 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
-            new Tuple<string, Action<string>>("edit", Edit)
+            new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find)
         };
 
         private static string[][] helpMessages = new string[][]
@@ -28,6 +29,11 @@ namespace FileCabinetApp
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints record statistics", "The 'stat' command prints record statistics."}
+        };
+
+        private static string[][] findProperties = new string[][]
+        {
+            new string[] { "firstname" },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -264,6 +270,24 @@ namespace FileCabinetApp
             else
             {
                 Console.WriteLine($"There is no explanation for '{parameters}' command.");
+            }
+        }
+
+        private static void Find(string parameters)
+        {
+            if (!string.IsNullOrEmpty(parameters))
+            {
+                var index = Array.FindIndex(findProperties, 0, findProperties.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters.Split(' ')[0], StringComparison.InvariantCultureIgnoreCase));
+                if (index == 0)
+                {
+                    foreach (var item in fileCabinetService.FindByFirstName(parameters.Split(' ')[1]))
+                    {
+                        Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
+                    };
+                }
+            else
+            {
+                Console.WriteLine("Enter property and query.");
             }
         }
     }   
