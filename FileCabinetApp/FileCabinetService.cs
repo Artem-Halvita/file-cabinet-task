@@ -8,6 +8,7 @@ namespace FileCabinetApp
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
         {
@@ -81,6 +82,15 @@ namespace FileCabinetApp
                 firstNameDictionary[firstName].Add(record);
             }
 
+            if (!lastNameDictionary.ContainsKey(lastName))
+            {
+                lastNameDictionary.Add(lastName, list.FindAll(i => i.LastName == lastName));
+            }
+            else
+            {
+                lastNameDictionary[lastName].Add(record);
+            }
+
             return record.Id;
         }
         public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
@@ -94,6 +104,7 @@ namespace FileCabinetApp
 
             list.RemoveAt(id - 1);
             firstNameDictionary[oldRecord.FirstName].Remove(oldRecord);
+            lastNameDictionary[oldRecord.LastName].Remove(oldRecord);
 
             var newRecord = new FileCabinetRecord()
             {
@@ -117,6 +128,14 @@ namespace FileCabinetApp
                 firstNameDictionary[firstName].Insert(id - 1, newRecord);
             }
 
+            if (!lastNameDictionary.ContainsKey(lastName))
+            {
+                lastNameDictionary.Add(lastName, list.FindAll(i => i.LastName == lastName));
+            }
+            else
+            {
+                lastNameDictionary[lastName].Insert(id - 1, newRecord);
+            }
         }
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
@@ -124,7 +143,7 @@ namespace FileCabinetApp
         }
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
-            return list.FindAll(i => i.LastName == lastName).ToArray();
+            return lastNameDictionary[lastName].ToArray();
         }
         public FileCabinetRecord[] FindByDateOfBirth(string inputDateOfBirth)
         {
