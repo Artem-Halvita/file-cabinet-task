@@ -104,7 +104,6 @@ namespace FileCabinetApp
 
             list.RemoveAt(id - 1);
             firstNameDictionary[oldRecord.FirstName].Remove(oldRecord);
-            lastNameDictionary[oldRecord.LastName].Remove(oldRecord);
 
             var newRecord = new FileCabinetRecord()
             {
@@ -125,7 +124,7 @@ namespace FileCabinetApp
             }
             else
             {
-                firstNameDictionary[firstName].Insert(id - 1, newRecord);
+                firstNameDictionary[firstName].Add(newRecord);
             }
 
             if (!lastNameDictionary.ContainsKey(lastName))
@@ -134,8 +133,7 @@ namespace FileCabinetApp
             }
             else
             {
-                lastNameDictionary[lastName].Insert(id - 1, newRecord);
-                firstNameDictionary[firstName].Insert(firstNameDictionary[firstName].Count - 1, newRecord);
+                lastNameDictionary[lastName].Add(newRecord);
             }
         }
         public FileCabinetRecord[] FindByFirstName(string firstName)
