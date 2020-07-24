@@ -135,6 +135,7 @@ namespace FileCabinetApp
             else
             {
                 lastNameDictionary[lastName].Insert(id - 1, newRecord);
+                firstNameDictionary[firstName].Insert(firstNameDictionary[firstName].Count - 1, newRecord);
             }
         }
         public FileCabinetRecord[] FindByFirstName(string firstName)
