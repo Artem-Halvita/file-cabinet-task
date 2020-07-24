@@ -9,6 +9,7 @@ namespace FileCabinetApp
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
         {
@@ -91,6 +92,15 @@ namespace FileCabinetApp
                 lastNameDictionary[lastName].Add(record);
             }
 
+            if (!dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                dateOfBirthDictionary.Add(dateOfBirth, list.FindAll(i => i.DateOfBirth == dateOfBirth));
+            }
+            else
+            {
+                dateOfBirthDictionary[dateOfBirth].Add(record);
+            }
+
             return record.Id;
         }
         public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
@@ -135,6 +145,15 @@ namespace FileCabinetApp
             {
                 lastNameDictionary[lastName].Add(newRecord);
             }
+
+            if (!dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                dateOfBirthDictionary.Add(dateOfBirth, list.FindAll(i => i.DateOfBirth == dateOfBirth));
+            }
+            else
+            {
+                dateOfBirthDictionary[dateOfBirth].Add(newRecord);
+            }
         }
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
@@ -149,7 +168,7 @@ namespace FileCabinetApp
             DateTime dateOfBirth;
             bool isParsed = DateTime.TryParse(inputDateOfBirth, out dateOfBirth);
 
-            return list.FindAll(i => i.DateOfBirth == dateOfBirth).ToArray();
+            return dateOfBirthDictionary[dateOfBirth].ToArray();
         }
         public FileCabinetRecord[] GetRecords()
         {
