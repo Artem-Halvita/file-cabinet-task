@@ -17,60 +17,52 @@ namespace FileCabinetApp
             {
                 throw new ArgumentNullException(nameof(firstName), "First name not should be null");
             }
+
             if (lastName == null)
             {
                 throw new ArgumentNullException(nameof(lastName), "Last name not should be null");
             }
 
-            var record = new FileCabinetRecord();
-
-            if (!string.IsNullOrEmpty(firstName) && firstName.Length >= 2 && firstName.Length <= 60)
-            {
-                record.FirstName = firstName;
-            }
-            else
+            if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
             {
                 throw new ArgumentException("First name less than two or more than 60 characters", nameof(firstName));
             }
 
-            if (!string.IsNullOrEmpty(lastName) && lastName.Length >= 2 && lastName.Length <= 60)
-            {
-                record.LastName = lastName;
-            }
-            else
+            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
             {
                 throw new ArgumentException("Last name less than two or more than 60 characters", nameof(lastName));
             }
 
-            if (dateOfBirth >= new DateTime(1950, 1, 1) && dateOfBirth <= DateTime.Now)
-            {
-                record.DateOfBirth = dateOfBirth;
-            }
-            else
+            if (dateOfBirth <= new DateTime(1950, 1, 1) || dateOfBirth >= DateTime.Now)
             {
                 throw new ArgumentException("Input correct date", nameof(dateOfBirth));
             }
 
-            if (age >= 12 && age <= 99)
-            {
-                record.Age = age;
-            }
-            else
+            if (age <= 12 || age >= 99)
             {
                 throw new ArgumentException("Age less than 12 or more than 99 years", nameof(age));
             }
 
-            if (money >= 0)
-            {
-                record.Money = money;
-            }
-            else
+            if (money <= 0)
             {
                 throw new ArgumentException("Money must be greater or equal to zero", nameof(money));
             }
 
-            record.Letter = letter;
-            record.Id = list.Count + 1;
+            if (!char.IsLetter(letter))
+            {
+                throw new ArgumentException("Must be a letter", nameof(letter));
+            }
+
+            var record = new FileCabinetRecord()
+            {
+                Id = list.Count + 1,
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Age = age,
+                Money = money,
+                Letter = letter,
+            };
 
             list.Add(record);
 
