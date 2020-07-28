@@ -4,13 +4,26 @@ using System.Text;
 
 namespace FileCabinetApp
 {
-    class FileCabinetService
+    /// <summary>
+    /// Represent record service.
+    /// </summary>
+    internal class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
+        /// <summary>
+        /// Represent create of record.
+        /// </summary>
+        /// <param name="firstName">Person's name.</param>
+        /// <param name="lastName">Person's surname.</param>
+        /// <param name="dateOfBirth">Person's date of birth.</param>
+        /// <param name="age">Person's age.</param>
+        /// <param name="money">Person's money.</param>
+        /// <param name="letter">Person's letter.</param>
+        /// <returns>Identifier of person.</returns>
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
         {
             if (firstName == null)
@@ -95,6 +108,17 @@ namespace FileCabinetApp
 
             return record.Id;
         }
+
+        /// <summary>
+        /// Represent edit of the record.
+        /// </summary>
+        /// <param name="id">Identifier of the person.</param>
+        /// <param name="firstName">Person's name.</param>
+        /// <param name="lastName">Person's surname.</param>
+        /// <param name="dateOfBirth">Person's date of birth.</param>
+        /// <param name="age">Person's age.</param>
+        /// <param name="money">Person's money.</param>
+        /// <param name="letter">Person's letter.</param>
         public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
         {
             if (GetStat() < id)
@@ -115,10 +139,10 @@ namespace FileCabinetApp
                 DateOfBirth = dateOfBirth,
                 Age = age,
                 Money = money,
-                Letter = letter
+                Letter = letter,
             };
 
-            list.Insert(id - 1, newRecord);    
+            list.Insert(id - 1, newRecord);
 
             if (!firstNameDictionary.ContainsKey(firstName))
             {
@@ -147,25 +171,57 @@ namespace FileCabinetApp
                 dateOfBirthDictionary[dateOfBirth].Add(newRecord);
             }
         }
+
+        /// <summary>
+        /// Find records by first name.
+        /// </summary>
+        /// <param name="firstName">Person's name.</param>
+        /// <returns>Array of records.</returns>
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
             return firstNameDictionary[firstName].ToArray();
         }
+
+        /// <summary>
+        /// Find records by last name.
+        /// </summary>
+        /// <param name="lastName">Person's surname.</param>
+        /// <returns>Array of records.</returns>
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             return lastNameDictionary[lastName].ToArray();
         }
+
+        /// <summary>
+        /// Find records by date of birth.
+        /// </summary>
+        /// <param name="inputDateOfBirth">Person's date of birth.</param>
+        /// <returns>Array of records.</returns>
         public FileCabinetRecord[] FindByDateOfBirth(string inputDateOfBirth)
         {
-            DateTime dateOfBirth;
-            bool isParsed = DateTime.TryParse(inputDateOfBirth, out dateOfBirth);
-
-            return dateOfBirthDictionary[dateOfBirth].ToArray();
+            if (DateTime.TryParse(inputDateOfBirth, out DateTime dateOfBirth))
+            {
+                return dateOfBirthDictionary[dateOfBirth].ToArray();
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
+
+        /// <summary>
+        /// Represent all records.
+        /// </summary>
+        /// <returns>Array of records.</returns>
         public FileCabinetRecord[] GetRecords()
         {
             return list.ToArray();
         }
+
+        /// <summary>
+        /// Represent count of records.
+        /// </summary>
+        /// <returns>Count of records.</returns>
         public int GetStat()
         {
             return this.list.Count;

@@ -4,5 +4,138 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetRecord">
+            <summary>
+            Represent the model of the record.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
+            <summary>
+            Gets or sets represents person's identify.
+            </summary>
+            <value>
+            Person's identify.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets person's first name.
+            </summary>
+            <value>
+            Person's first name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets person's last name.
+            </summary>
+            <value>
+            Person's last name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets person's date of birth.
+            </summary>
+            <value>
+            Person's date of birth.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Age">
+            <summary>
+            Gets or sets person's age.
+            </summary>
+            <value>
+            Person's age.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Money">
+            <summary>
+            Gets or sets person's money.
+            </summary>
+            <value>
+            Person's money.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Letter">
+            <summary>
+            Gets or sets person's letter.
+            </summary>
+            <value>
+            Person's letter.
+            </value>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetService">
+            <summary>
+            Represent record service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
+            <summary>
+            Represent create of record.
+            </summary>
+            <param name="firstName">Person's name.</param>
+            <param name="lastName">Person's surname.</param>
+            <param name="dateOfBirth">Person's date of birth.</param>
+            <param name="age">Person's age.</param>
+            <param name="money">Person's money.</param>
+            <param name="letter">Person's letter.</param>
+            <returns>Identifier of person.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
+            <summary>
+            Represent edit of the record.
+            </summary>
+            <param name="id">Identifier of the person.</param>
+            <param name="firstName">Person's name.</param>
+            <param name="lastName">Person's surname.</param>
+            <param name="dateOfBirth">Person's date of birth.</param>
+            <param name="age">Person's age.</param>
+            <param name="money">Person's money.</param>
+            <param name="letter">Person's letter.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Find records by first name.
+            </summary>
+            <param name="firstName">Person's name.</param>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Find records by last name.
+            </summary>
+            <param name="lastName">Person's surname.</param>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByDateOfBirth(System.String)">
+            <summary>
+            Find records by date of birth.
+            </summary>
+            <param name="inputDateOfBirth">Person's date of birth.</param>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+            <summary>
+            Represent all records.
+            </summary>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+            <summary>
+            Represent count of records.
+            </summary>
+            <returns>Count of records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Represent the main class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main">
+            <summary>
+            Represents the main method.
+            </summary>
+        </member>
     </members>
 </doc>

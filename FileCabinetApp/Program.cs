@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Represent the main class.
+    /// </summary>
     public static class Program
     {
         private const string DeveloperName = "Artem Halvita";
@@ -21,14 +24,14 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
-            new Tuple<string, Action<string>>("find", Find)
+            new Tuple<string, Action<string>>("find", Find),
         };
 
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
-            new string[] { "stat", "prints record statistics", "The 'stat' command prints record statistics."}
+            new string[] { "stat", "prints record statistics", "The 'stat' command prints record statistics." },
         };
 
         private static string[][] findProperties = new string[][]
@@ -41,7 +44,10 @@ namespace FileCabinetApp
         private static FileCabinetService fileCabinetService = new FileCabinetService();
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
-        public static void Main(string[] args)
+        /// <summary>
+        /// Represents the main method.
+        /// </summary>
+        public static void Main()
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
             Console.WriteLine(Program.HintMessage);
@@ -280,26 +286,29 @@ namespace FileCabinetApp
             if (!string.IsNullOrEmpty(parameters))
             {
                 var index = Array.FindIndex(findProperties, 0, findProperties.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters.Split(' ')[0], StringComparison.InvariantCultureIgnoreCase));
+
                 if (index == 0)
                 {
                     foreach (var item in fileCabinetService.FindByFirstName(parameters.Split(' ')[1]))
                     {
                         Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
-                    };
+                    }
                 }
+
                 if (index == 1)
                 {
                     foreach (var item in fileCabinetService.FindByLastName(parameters.Split(' ')[1]))
                     {
                         Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
-                    };
+                    }
                 }
+
                 if (index == 2)
                 {
                     foreach (var item in fileCabinetService.FindByDateOfBirth(parameters.Split(' ')[1]))
                     {
                         Console.WriteLine($"#{item.Id}, {item.FirstName}, {item.LastName}, {item.DateOfBirth.ToString("yyyy-MMM-dd", cultureInfo)}, {item.Age}, {item.Money}, {item.Letter}");
-                    };
+                    }
                 }
             }
             else
@@ -307,5 +316,5 @@ namespace FileCabinetApp
                 Console.WriteLine("Enter property and query.");
             }
         }
-    }   
+    }
 }
