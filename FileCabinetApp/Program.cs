@@ -38,7 +38,7 @@ namespace FileCabinetApp
         {
             new string[] { "firstname" },
             new string[] { "lastname" },
-            new string[] { "dateOfBirth" }
+            new string[] { "dateOfBirth" },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -186,7 +186,17 @@ namespace FileCabinetApp
                 letterInput = Console.ReadLine();
             }
 
-            var id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, age, money, letter);
+            var record = new FileCabinetRecord()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Age = age,
+                Money = money,
+                Letter = letter,
+            };
+
+            var id = fileCabinetService.CreateRecord(record);
 
             Console.WriteLine($"Record #{id} is created.");
         }
@@ -266,7 +276,17 @@ namespace FileCabinetApp
                         letterInput = Console.ReadLine();
                     }
 
-                    fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, age, money, letter);
+                    var newRecord = new FileCabinetRecord()
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        DateOfBirth = dateOfBirth,
+                        Age = age,
+                        Money = money,
+                        Letter = letter,
+                    };
+
+                    fileCabinetService.EditRecord(id, newRecord);
 
                     Console.WriteLine($"Record #{id} is edited.");
                 }

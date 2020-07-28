@@ -17,93 +17,79 @@ namespace FileCabinetApp
         /// <summary>
         /// Represent create of record.
         /// </summary>
-        /// <param name="firstName">Person's name.</param>
-        /// <param name="lastName">Person's surname.</param>
-        /// <param name="dateOfBirth">Person's date of birth.</param>
-        /// <param name="age">Person's age.</param>
-        /// <param name="money">Person's money.</param>
-        /// <param name="letter">Person's letter.</param>
+        /// <param name="record">Record info of the person.</param>
         /// <returns>Identifier of person.</returns>
-        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
+        public int CreateRecord(FileCabinetRecord record)
         {
-            if (firstName == null)
+            if (record.FirstName == null)
             {
-                throw new ArgumentNullException(nameof(firstName), "First name not should be null");
+                throw new ArgumentNullException(nameof(record.FirstName), "First name not should be null");
             }
 
-            if (lastName == null)
+            if (record.LastName == null)
             {
-                throw new ArgumentNullException(nameof(lastName), "Last name not should be null");
+                throw new ArgumentNullException(nameof(record.LastName), "Last name not should be null");
             }
 
-            if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+            if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < 2 || record.FirstName.Length > 60)
             {
-                throw new ArgumentException("First name less than two or more than 60 characters", nameof(firstName));
+                throw new ArgumentException("First name less than two or more than 60 characters", nameof(record.FirstName));
             }
 
-            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+            if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < 2 || record.LastName.Length > 60)
             {
-                throw new ArgumentException("Last name less than two or more than 60 characters", nameof(lastName));
+                throw new ArgumentException("Last name less than two or more than 60 characters", nameof(record.LastName));
             }
 
-            if (dateOfBirth <= new DateTime(1950, 1, 1) || dateOfBirth >= DateTime.Now)
+            if (record.DateOfBirth <= new DateTime(1950, 1, 1) || record.DateOfBirth >= DateTime.Now)
             {
-                throw new ArgumentException("Input correct date", nameof(dateOfBirth));
+                throw new ArgumentException("Input correct date", nameof(record.DateOfBirth));
             }
 
-            if (age <= 12 || age >= 99)
+            if (record.Age <= 12 || record.Age >= 99)
             {
-                throw new ArgumentException("Age less than 12 or more than 99 years", nameof(age));
+                throw new ArgumentException("Age less than 12 or more than 99 years", nameof(record.Age));
             }
 
-            if (money <= 0)
+            if (record.Money <= 0)
             {
-                throw new ArgumentException("Money must be greater or equal to zero", nameof(money));
+                throw new ArgumentException("Money must be greater or equal to zero", nameof(record.Money));
             }
 
-            if (!char.IsLetter(letter))
+            if (!char.IsLetter(record.Letter))
             {
-                throw new ArgumentException("Must be a letter", nameof(letter));
+                throw new ArgumentException("Must be a letter", nameof(record.Letter));
             }
 
-            var record = new FileCabinetRecord()
-            {
-                Id = list.Count + 1,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Age = age,
-                Money = money,
-                Letter = letter,
-            };
+            record.Id = list.Count + 1;
 
             list.Add(record);
 
-            if (!firstNameDictionary.ContainsKey(firstName))
+            if (!firstNameDictionary.ContainsKey(record.FirstName))
             {
-                firstNameDictionary.Add(firstName, list.FindAll(i => i.FirstName == firstName));
+                firstNameDictionary.Add(record.FirstName, list.FindAll(i => i.FirstName == record.FirstName));
             }
             else
             {
-                firstNameDictionary[firstName].Add(record);
+                firstNameDictionary[record.FirstName].Add(record);
             }
 
-            if (!lastNameDictionary.ContainsKey(lastName))
+            if (!lastNameDictionary.ContainsKey(record.LastName))
             {
-                lastNameDictionary.Add(lastName, list.FindAll(i => i.LastName == lastName));
+                lastNameDictionary.Add(record.LastName, list.FindAll(i => i.LastName == record.LastName));
             }
             else
             {
-                lastNameDictionary[lastName].Add(record);
+                lastNameDictionary[record.LastName].Add(record);
             }
 
-            if (!dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            if (!dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
             {
-                dateOfBirthDictionary.Add(dateOfBirth, list.FindAll(i => i.DateOfBirth == dateOfBirth));
+                dateOfBirthDictionary.Add(record.DateOfBirth, list.FindAll(i => i.DateOfBirth == record.DateOfBirth));
             }
             else
             {
-                dateOfBirthDictionary[dateOfBirth].Add(record);
+                dateOfBirthDictionary[record.DateOfBirth].Add(record);
             }
 
             return record.Id;
@@ -113,17 +99,52 @@ namespace FileCabinetApp
         /// Represent edit of the record.
         /// </summary>
         /// <param name="id">Identifier of the person.</param>
-        /// <param name="firstName">Person's name.</param>
-        /// <param name="lastName">Person's surname.</param>
-        /// <param name="dateOfBirth">Person's date of birth.</param>
-        /// <param name="age">Person's age.</param>
-        /// <param name="money">Person's money.</param>
-        /// <param name="letter">Person's letter.</param>
-        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short age, decimal money, char letter)
+        /// <param name="newRecord">Record info of the person.</param>
+        public void EditRecord(int id, FileCabinetRecord newRecord)
         {
             if (GetStat() < id)
             {
                 throw new ArgumentException("Not exist", nameof(id));
+            }
+
+            if (newRecord.FirstName == null)
+            {
+                throw new ArgumentNullException(nameof(newRecord.FirstName), "First name not should be null");
+            }
+
+            if (newRecord.LastName == null)
+            {
+                throw new ArgumentNullException(nameof(newRecord.LastName), "Last name not should be null");
+            }
+
+            if (string.IsNullOrWhiteSpace(newRecord.FirstName) || newRecord.FirstName.Length < 2 || newRecord.FirstName.Length > 60)
+            {
+                throw new ArgumentException("First name less than two or more than 60 characters", nameof(newRecord.FirstName));
+            }
+
+            if (string.IsNullOrWhiteSpace(newRecord.LastName) || newRecord.LastName.Length < 2 || newRecord.LastName.Length > 60)
+            {
+                throw new ArgumentException("Last name less than two or more than 60 characters", nameof(newRecord.LastName));
+            }
+
+            if (newRecord.DateOfBirth <= new DateTime(1950, 1, 1) || newRecord.DateOfBirth >= DateTime.Now)
+            {
+                throw new ArgumentException("Input correct date", nameof(newRecord.DateOfBirth));
+            }
+
+            if (newRecord.Age <= 12 || newRecord.Age >= 99)
+            {
+                throw new ArgumentException("Age less than 12 or more than 99 years", nameof(newRecord.Age));
+            }
+
+            if (newRecord.Money <= 0)
+            {
+                throw new ArgumentException("Money must be greater or equal to zero", nameof(newRecord.Money));
+            }
+
+            if (!char.IsLetter(newRecord.Letter))
+            {
+                throw new ArgumentException("Must be a letter", nameof(newRecord.Letter));
             }
 
             var oldRecord = list.FindLast(i => i.Id == id);
@@ -131,44 +152,35 @@ namespace FileCabinetApp
             list.RemoveAt(id - 1);
             firstNameDictionary[oldRecord.FirstName].Remove(oldRecord);
 
-            var newRecord = new FileCabinetRecord()
-            {
-                Id = id,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Age = age,
-                Money = money,
-                Letter = letter,
-            };
+            newRecord.Id = id;
 
             list.Insert(id - 1, newRecord);
 
-            if (!firstNameDictionary.ContainsKey(firstName))
+            if (!firstNameDictionary.ContainsKey(newRecord.FirstName))
             {
-                firstNameDictionary.Add(firstName, list.FindAll(i => i.FirstName == firstName));
+                firstNameDictionary.Add(newRecord.FirstName, list.FindAll(i => i.FirstName == newRecord.FirstName));
             }
             else
             {
-                firstNameDictionary[firstName].Add(newRecord);
+                firstNameDictionary[newRecord.FirstName].Add(newRecord);
             }
 
-            if (!lastNameDictionary.ContainsKey(lastName))
+            if (!lastNameDictionary.ContainsKey(newRecord.LastName))
             {
-                lastNameDictionary.Add(lastName, list.FindAll(i => i.LastName == lastName));
+                lastNameDictionary.Add(newRecord.LastName, list.FindAll(i => i.LastName == newRecord.LastName));
             }
             else
             {
-                lastNameDictionary[lastName].Add(newRecord);
+                lastNameDictionary[newRecord.LastName].Add(newRecord);
             }
 
-            if (!dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            if (!dateOfBirthDictionary.ContainsKey(newRecord.DateOfBirth))
             {
-                dateOfBirthDictionary.Add(dateOfBirth, list.FindAll(i => i.DateOfBirth == dateOfBirth));
+                dateOfBirthDictionary.Add(newRecord.DateOfBirth, list.FindAll(i => i.DateOfBirth == newRecord.DateOfBirth));
             }
             else
             {
-                dateOfBirthDictionary[dateOfBirth].Add(newRecord);
+                dateOfBirthDictionary[newRecord.DateOfBirth].Add(newRecord);
             }
         }
 

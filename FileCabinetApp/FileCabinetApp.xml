@@ -70,29 +70,19 @@
             Represent record service.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Represent create of record.
             </summary>
-            <param name="firstName">Person's name.</param>
-            <param name="lastName">Person's surname.</param>
-            <param name="dateOfBirth">Person's date of birth.</param>
-            <param name="age">Person's age.</param>
-            <param name="money">Person's money.</param>
-            <param name="letter">Person's letter.</param>
+            <param name="record">Record info of the person.</param>
             <returns>Identifier of person.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.FileCabinetRecord)">
             <summary>
             Represent edit of the record.
             </summary>
             <param name="id">Identifier of the person.</param>
-            <param name="firstName">Person's name.</param>
-            <param name="lastName">Person's surname.</param>
-            <param name="dateOfBirth">Person's date of birth.</param>
-            <param name="age">Person's age.</param>
-            <param name="money">Person's money.</param>
-            <param name="letter">Person's letter.</param>
+            <param name="newRecord">Record info of the person.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
             <summary>
