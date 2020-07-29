@@ -41,7 +41,7 @@ namespace FileCabinetApp
             new string[] { "dateOfBirth" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         /// <summary>
@@ -128,75 +128,90 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            Console.Write("First name: ");
-            string firstName = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+            int id = default;
+            bool done = false;
+
+            while (!done)
             {
-                Console.WriteLine("Incorrect entry. Try again.");
                 Console.Write("First name: ");
-                firstName = Console.ReadLine();
-            }
+                string firstName = Console.ReadLine();
+                while (string.IsNullOrWhiteSpace(firstName))
+                {
+                    Console.WriteLine("Incorrect entry. Try again.");
+                    Console.Write("First name: ");
+                    firstName = Console.ReadLine();
+                }
 
-            Console.Write("Last name: ");
-            string lastName = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-            {
-                Console.WriteLine("Incorrect entry. Try again.");
                 Console.Write("Last name: ");
-                lastName = Console.ReadLine();
-            }
+                string lastName = Console.ReadLine();
+                while (string.IsNullOrWhiteSpace(lastName))
+                {
+                    Console.WriteLine("Incorrect entry. Try again.");
+                    Console.Write("Last name: ");
+                    lastName = Console.ReadLine();
+                }
 
-            Console.Write("Date of birth: ");
-            string dateInput = Console.ReadLine();
-            DateTime dateOfBirth;
-            while (!DateTime.TryParse(dateInput, out dateOfBirth) || dateOfBirth <= new DateTime(1950, 1, 1) || dateOfBirth >= DateTime.Now)
-            {
-                Console.WriteLine("Incorrect entry. Try again.");
                 Console.Write("Date of birth: ");
-                dateInput = Console.ReadLine();
-            }
+                string dateInput = Console.ReadLine();
+                DateTime dateOfBirth;
+                while (!DateTime.TryParse(dateInput, out dateOfBirth))
+                {
+                    Console.WriteLine("Incorrect entry. Try again.");
+                    Console.Write("Date of birth: ");
+                    dateInput = Console.ReadLine();
+                }
 
-            Console.Write("Age: ");
-            string ageInput = Console.ReadLine();
-            short age;
-            while (!short.TryParse(ageInput, out age) || age < 12 || age > 99)
-            {
-                Console.WriteLine("Incorrect entry. Try again.");
                 Console.Write("Age: ");
-                ageInput = Console.ReadLine();
-            }
+                string ageInput = Console.ReadLine();
+                short age;
+                while (!short.TryParse(ageInput, out age))
+                {
+                    Console.WriteLine("Incorrect entry. Try again.");
+                    Console.Write("Age: ");
+                    ageInput = Console.ReadLine();
+                }
 
-            Console.Write("Money: ");
-            string moneyInput = Console.ReadLine();
-            decimal money;
-            while (!decimal.TryParse(moneyInput, out money) || money < 0)
-            {
-                Console.WriteLine("Incorrect entry. Try again.");
                 Console.Write("Money: ");
-                moneyInput = Console.ReadLine();
+                string moneyInput = Console.ReadLine();
+                decimal money;
+                while (!decimal.TryParse(moneyInput, out money))
+                {
+                    Console.WriteLine("Incorrect entry. Try again.");
+                    Console.Write("Money: ");
+                    moneyInput = Console.ReadLine();
+                }
+
+                Console.Write("Any letter: ");
+                string letterInput = Console.ReadLine();
+                char letter;
+                while (!char.TryParse(letterInput, out letter))
+                {
+                    Console.WriteLine("Incorrect entry. Try again.");
+                    Console.Write("Letter: ");
+                    letterInput = Console.ReadLine();
+                }
+
+                var record = new FileCabinetRecord()
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    DateOfBirth = dateOfBirth,
+                    Age = age,
+                    Money = money,
+                    Letter = letter,
+                };
+
+                try
+                {
+                    id = fileCabinetService.CreateRecord(record);
+                    done = true;
+                }
+                catch (ArgumentException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                    Console.WriteLine("Try again.");
+                }
             }
-
-            Console.Write("Any letter: ");
-            string letterInput = Console.ReadLine();
-            char letter;
-            while (!char.TryParse(letterInput, out letter) || !char.IsLetter(letter))
-            {
-                Console.WriteLine("Incorrect entry. Try again.");
-                Console.Write("Letter: ");
-                letterInput = Console.ReadLine();
-            }
-
-            var record = new FileCabinetRecord()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Age = age,
-                Money = money,
-                Letter = letter,
-            };
-
-            var id = fileCabinetService.CreateRecord(record);
 
             Console.WriteLine($"Record #{id} is created.");
         }

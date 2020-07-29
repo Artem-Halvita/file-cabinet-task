@@ -7,7 +7,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Represent record service.
     /// </summary>
-    internal class FileCabinetService
+    internal abstract class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
@@ -21,45 +21,7 @@ namespace FileCabinetApp
         /// <returns>Identifier of person.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            if (record.FirstName == null)
-            {
-                throw new ArgumentNullException(nameof(record.FirstName), "First name not should be null");
-            }
-
-            if (record.LastName == null)
-            {
-                throw new ArgumentNullException(nameof(record.LastName), "Last name not should be null");
-            }
-
-            if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < 2 || record.FirstName.Length > 60)
-            {
-                throw new ArgumentException("First name less than two or more than 60 characters", nameof(record.FirstName));
-            }
-
-            if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < 2 || record.LastName.Length > 60)
-            {
-                throw new ArgumentException("Last name less than two or more than 60 characters", nameof(record.LastName));
-            }
-
-            if (record.DateOfBirth <= new DateTime(1950, 1, 1) || record.DateOfBirth >= DateTime.Now)
-            {
-                throw new ArgumentException("Input correct date", nameof(record.DateOfBirth));
-            }
-
-            if (record.Age <= 12 || record.Age >= 99)
-            {
-                throw new ArgumentException("Age less than 12 or more than 99 years", nameof(record.Age));
-            }
-
-            if (record.Money <= 0)
-            {
-                throw new ArgumentException("Money must be greater or equal to zero", nameof(record.Money));
-            }
-
-            if (!char.IsLetter(record.Letter))
-            {
-                throw new ArgumentException("Must be a letter", nameof(record.Letter));
-            }
+            ValidateParameters(record);
 
             record.Id = list.Count + 1;
 
@@ -107,45 +69,7 @@ namespace FileCabinetApp
                 throw new ArgumentException("Not exist", nameof(id));
             }
 
-            if (newRecord.FirstName == null)
-            {
-                throw new ArgumentNullException(nameof(newRecord.FirstName), "First name not should be null");
-            }
-
-            if (newRecord.LastName == null)
-            {
-                throw new ArgumentNullException(nameof(newRecord.LastName), "Last name not should be null");
-            }
-
-            if (string.IsNullOrWhiteSpace(newRecord.FirstName) || newRecord.FirstName.Length < 2 || newRecord.FirstName.Length > 60)
-            {
-                throw new ArgumentException("First name less than two or more than 60 characters", nameof(newRecord.FirstName));
-            }
-
-            if (string.IsNullOrWhiteSpace(newRecord.LastName) || newRecord.LastName.Length < 2 || newRecord.LastName.Length > 60)
-            {
-                throw new ArgumentException("Last name less than two or more than 60 characters", nameof(newRecord.LastName));
-            }
-
-            if (newRecord.DateOfBirth <= new DateTime(1950, 1, 1) || newRecord.DateOfBirth >= DateTime.Now)
-            {
-                throw new ArgumentException("Input correct date", nameof(newRecord.DateOfBirth));
-            }
-
-            if (newRecord.Age <= 12 || newRecord.Age >= 99)
-            {
-                throw new ArgumentException("Age less than 12 or more than 99 years", nameof(newRecord.Age));
-            }
-
-            if (newRecord.Money <= 0)
-            {
-                throw new ArgumentException("Money must be greater or equal to zero", nameof(newRecord.Money));
-            }
-
-            if (!char.IsLetter(newRecord.Letter))
-            {
-                throw new ArgumentException("Must be a letter", nameof(newRecord.Letter));
-            }
+            ValidateParameters(newRecord);
 
             var oldRecord = list.FindLast(i => i.Id == id);
 
@@ -238,5 +162,11 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        /// <summary>
+        /// Validate parameters.
+        /// </summary>
+        /// <param name="record">Person's record.</param>
+        protected abstract void ValidateParameters(FileCabinetRecord record);
     }
 }

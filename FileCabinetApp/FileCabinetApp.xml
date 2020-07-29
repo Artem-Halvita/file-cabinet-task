@@ -86,7 +86,7 @@
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
             <summary>
-            Find records by first name.
+            Find records by first name. 
             </summary>
             <param name="firstName">Person's name.</param>
             <returns>Array of records.</returns>
