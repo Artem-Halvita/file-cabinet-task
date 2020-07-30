@@ -41,15 +41,39 @@ namespace FileCabinetApp
             new string[] { "dateOfBirth" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
+        private static FileCabinetService fileCabinetService = new FileCabinetDefaultService();
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         /// <summary>
         /// Represents the main method.
         /// </summary>
-        public static void Main()
+        /// <param name="args">Arguments of command line.</param>
+        public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
+
+            // TODO : Improve validation-rules command line
+            if (args != null && args.Length > 0)
+            {
+                if (args[0] == "--validation-rules=default" || (args[0] == "-v" && string.Compare(args[1], "default", StringComparison.OrdinalIgnoreCase) == 0))
+                {
+                }
+
+                if (args[0] == "--validation-rules=custom" || (args[0] == "-v" && string.Compare(args[1], "custom", StringComparison.OrdinalIgnoreCase) == 0))
+                {
+                    fileCabinetService = new FileCabinetCustomService();
+                }
+            }
+
+            if (fileCabinetService is FileCabinetDefaultService)
+            {
+                Console.WriteLine("Using default validation rules.");
+            }
+            else if (fileCabinetService is FileCabinetCustomService)
+            {
+                Console.WriteLine("Using custom validation rules.");
+            }
+
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
