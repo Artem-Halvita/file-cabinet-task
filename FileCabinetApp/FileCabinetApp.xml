@@ -26,6 +26,26 @@
             </summary>
             <param name="record">Person's record.</param>
         </member>
+        <member name="T:FileCabinetApp.FileCabinetCustomService">
+            <summary>
+            Represent creating custom service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetCustomService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetCustomService"/> class.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetDefaultService">
+            <summary>
+            Represent creating default service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetDefaultService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetDefaultService"/> class.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Represent the model of the record.
@@ -92,6 +112,12 @@
             Represent record service.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">Type of validator.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Represent create of record.
@@ -139,9 +165,14 @@
             </summary>
             <returns>Count of records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
+        <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
-            Validate parameters.
+            Represent validate types.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Represent validate parameters.
             </summary>
             <param name="record">Person's record.</param>
         </member>

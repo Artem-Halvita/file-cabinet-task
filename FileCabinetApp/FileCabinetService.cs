@@ -13,6 +13,16 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private IRecordValidator validator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">Type of validator.</param>
+        public FileCabinetService(IRecordValidator validator)
+        {
+            this.validator = validator;
+        }
 
         /// <summary>
         /// Represent create of record.
@@ -21,8 +31,7 @@ namespace FileCabinetApp
         /// <returns>Identifier of person.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            CreateValidator()
-                .ValidateParameters(record);
+            validator.ValidateParameters(record);
 
             record.Id = list.Count + 1;
 
@@ -70,8 +79,7 @@ namespace FileCabinetApp
                 throw new ArgumentException("Not exist", nameof(id));
             }
 
-            CreateValidator()
-                .ValidateParameters(newRecord);
+            validator.ValidateParameters(newRecord);
 
             var oldRecord = list.FindLast(i => i.Id == id);
 
@@ -164,11 +172,5 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
-
-        /// <summary>
-        /// Create necessary validator.
-        /// </summary>
-        /// <returns>Type of necessary validator.</returns>
-        protected abstract IRecordValidator CreateValidator();
     }
 }
