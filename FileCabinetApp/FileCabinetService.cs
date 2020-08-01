@@ -21,7 +21,8 @@ namespace FileCabinetApp
         /// <returns>Identifier of person.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            ValidateParameters(record);
+            CreateValidator()
+                .ValidateParameters(record);
 
             record.Id = list.Count + 1;
 
@@ -69,7 +70,8 @@ namespace FileCabinetApp
                 throw new ArgumentException("Not exist", nameof(id));
             }
 
-            ValidateParameters(newRecord);
+            CreateValidator()
+                .ValidateParameters(newRecord);
 
             var oldRecord = list.FindLast(i => i.Id == id);
 
@@ -164,9 +166,9 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Validate parameters.
+        /// Create necessary validator.
         /// </summary>
-        /// <param name="record">Person's record.</param>
-        protected abstract void ValidateParameters(FileCabinetRecord record);
+        /// <returns>Type of necessary validator.</returns>
+        protected abstract IRecordValidator CreateValidator();
     }
 }

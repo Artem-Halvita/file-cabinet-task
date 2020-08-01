@@ -65,7 +65,7 @@ namespace FileCabinetApp
                 }
             }
 
-            if (fileCabinetService is FileCabinetDefaultService)
+            if (fileCabinetService is FileCabinetCustomService)
             {
                 Console.WriteLine("Using default validation rules.");
             }

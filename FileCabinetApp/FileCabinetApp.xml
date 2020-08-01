@@ -4,23 +4,23 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
-        <member name="T:FileCabinetApp.FileCabinetCustomService">
+        <member name="T:FileCabinetApp.CustomValidator">
             <summary>
             Custom service settings.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetCustomService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.CustomValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Validate parameters.
             </summary>
             <param name="record">Person's record.</param>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetDefaultService">
+        <member name="T:FileCabinetApp.DefaultValidator">
             <summary>
             Default custom settrings.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.DefaultValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Validate paprameters.
             </summary>
@@ -139,7 +139,7 @@
             </summary>
             <returns>Count of records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
             <summary>
             Validate parameters.
             </summary>
@@ -154,6 +154,7 @@
             <summary>
             Represents the main method.
             </summary>
+            <param name="args">Arguments of command line.</param>
         </member>
     </members>
 </doc>
