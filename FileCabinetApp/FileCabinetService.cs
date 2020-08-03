@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace FileCabinetApp
@@ -123,9 +124,9 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">Person's name.</param>
         /// <returns>Array of records.</returns>
-        public FileCabinetRecord[] FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            return firstNameDictionary[firstName].ToArray();
+            return firstNameDictionary[firstName].AsReadOnly();
         }
 
         /// <summary>
@@ -133,9 +134,9 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">Person's surname.</param>
         /// <returns>Array of records.</returns>
-        public FileCabinetRecord[] FindByLastName(string lastName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            return lastNameDictionary[lastName].ToArray();
+            return lastNameDictionary[lastName].AsReadOnly();
         }
 
         /// <summary>
@@ -143,11 +144,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="inputDateOfBirth">Person's date of birth.</param>
         /// <returns>Array of records.</returns>
-        public FileCabinetRecord[] FindByDateOfBirth(string inputDateOfBirth)
+        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string inputDateOfBirth)
         {
             if (DateTime.TryParse(inputDateOfBirth, out DateTime dateOfBirth))
             {
-                return dateOfBirthDictionary[dateOfBirth].ToArray();
+                return dateOfBirthDictionary[dateOfBirth].AsReadOnly();
             }
             else
             {
@@ -159,9 +160,9 @@ namespace FileCabinetApp
         /// Represent all records.
         /// </summary>
         /// <returns>Array of records.</returns>
-        public FileCabinetRecord[] GetRecords()
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            return list.ToArray();
+            return list.AsReadOnly();
         }
 
         /// <summary>
