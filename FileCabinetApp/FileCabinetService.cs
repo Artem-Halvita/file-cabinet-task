@@ -7,7 +7,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Represent record service.
     /// </summary>
-    internal abstract class FileCabinetService
+    internal class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>(StringComparer.OrdinalIgnoreCase);

@@ -26,26 +26,6 @@
             </summary>
             <param name="record">Person's record.</param>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetCustomService">
-            <summary>
-            Represent creating custom service.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetCustomService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetCustomService"/> class.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetDefaultService">
-            <summary>
-            Represent creating default service.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetDefaultService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetDefaultService"/> class.
-            </summary>
-        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Represent the model of the record.
