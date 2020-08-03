@@ -41,7 +41,7 @@ namespace FileCabinetApp
             new string[] { "dateOfBirth" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetDefaultService();
+        private static FileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         /// <summary>
@@ -53,24 +53,20 @@ namespace FileCabinetApp
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
 
             // TODO : Improve validation-rules command line
-            if (args != null && args.Length > 0)
-            {
-                if (args[0] == "--validation-rules=default" || (args[0] == "-v" && string.Compare(args[1], "default", StringComparison.OrdinalIgnoreCase) == 0))
-                {
-                }
-
-                if (args[0] == "--validation-rules=custom" || (args[0] == "-v" && string.Compare(args[1], "custom", StringComparison.OrdinalIgnoreCase) == 0))
-                {
-                    fileCabinetService = new FileCabinetCustomService();
-                }
-            }
-
-            if (fileCabinetService is FileCabinetDefaultService)
+            if (args == null || !(args.Length > 0))
             {
                 Console.WriteLine("Using default validation rules.");
             }
-            else if (fileCabinetService is FileCabinetCustomService)
+            else if (args != null &&
+                    (args[0] == "--validation-rules=default" ||
+                    (args[0] == "-v" && string.Compare(args[1], "default", StringComparison.OrdinalIgnoreCase) == 0)))
             {
+                Console.WriteLine("Using default validation rules.");
+            }
+
+            if (args != null && args.Length > 0 && (args[0] == "--validation-rules=custom" || (args[0] == "-v" && string.Compare(args[1], "custom", StringComparison.OrdinalIgnoreCase) == 0)))
+            {
+                fileCabinetService = new FileCabinetService(new CustomValidator());
                 Console.WriteLine("Using custom validation rules.");
             }
 
