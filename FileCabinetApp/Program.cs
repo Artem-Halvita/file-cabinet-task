@@ -41,7 +41,7 @@ namespace FileCabinetApp
             new string[] { "dateOfBirth" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
+        private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         /// <summary>
