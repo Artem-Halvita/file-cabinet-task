@@ -9,22 +9,94 @@
             Custom service settings.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CustomValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.CustomValidator.FirstNameValidator(System.String)">
             <summary>
-            Validate parameters.
+            Validate first name.
             </summary>
-            <param name="record">Person's record.</param>
+            <param name="firstName">Person's first name.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CustomValidator.LastNameValidator(System.String)">
+            <summary>
+            Validate last name.
+            </summary>
+            <param name="lastName">Person's last name.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CustomValidator.DateOfBirthValidator(System.DateTime)">
+            <summary>
+            Validate date of birth.
+            </summary>
+            <param name="dateOfBirth">Person's date of birth.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CustomValidator.AgeValidator(System.Int16)">
+            <summary>
+            Validate age.
+            </summary>
+            <param name="age">Person's age.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CustomValidator.MoneyValidator(System.Decimal)">
+            <summary>
+            Validate money.
+            </summary>
+            <param name="money">Person's money.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CustomValidator.LetterValidator(System.Char)">
+            <summary>
+            Validate letter.
+            </summary>
+            <param name="letter">Person's letter.</param>
+            <returns>Tuple with validation info.</returns>
         </member>
         <member name="T:FileCabinetApp.DefaultValidator">
             <summary>
             Default custom settrings.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.DefaultValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.DefaultValidator.FirstNameValidator(System.String)">
             <summary>
-            Validate paprameters.
+            Validate first name.
             </summary>
-            <param name="record">Person's record.</param>
+            <param name="firstName">Person's first name.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DefaultValidator.LastNameValidator(System.String)">
+            <summary>
+            Validate last name.
+            </summary>
+            <param name="lastName">Person's last name.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DefaultValidator.DateOfBirthValidator(System.DateTime)">
+            <summary>
+            Validate date of birth.
+            </summary>
+            <param name="dateOfBirth">Person's date of birth.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DefaultValidator.AgeValidator(System.Int16)">
+            <summary>
+            Validate age.
+            </summary>
+            <param name="age">Person's age.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DefaultValidator.MoneyValidator(System.Decimal)">
+            <summary>
+            Validate money.
+            </summary>
+            <param name="money">Person's money.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DefaultValidator.LetterValidator(System.Char)">
+            <summary>
+            Validate letter.
+            </summary>
+            <param name="letter">Person's letter.</param>
+            <returns>Tuple with validation info.</returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
@@ -91,12 +163,6 @@
             <summary>
             Represent record service.
             </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.IRecordValidator)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
-            </summary>
-            <param name="validator">Type of validator.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -202,11 +268,47 @@
             Represent validate types.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.IRecordValidator.FirstNameValidator(System.String)">
             <summary>
-            Represent validate parameters.
+            Validate first name.
             </summary>
-            <param name="record">Person's record.</param>
+            <param name="firstName">Person's first name.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.LastNameValidator(System.String)">
+            <summary>
+            Validate last name.
+            </summary>
+            <param name="lastName">Person's last name.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.DateOfBirthValidator(System.DateTime)">
+            <summary>
+            Validate date of birth.
+            </summary>
+            <param name="dateOfBirth">Person's date of birth.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.AgeValidator(System.Int16)">
+            <summary>
+            Validate age.
+            </summary>
+            <param name="age">Person's age.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.MoneyValidator(System.Decimal)">
+            <summary>
+            Validate money.
+            </summary>
+            <param name="money">Person's money.</param>
+            <returns>Tuple with validation info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.LetterValidator(System.Char)">
+            <summary>
+            Validate letter.
+            </summary>
+            <param name="letter">Person's letter.</param>
+            <returns>Tuple with validation info.</returns>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
@@ -218,6 +320,46 @@
             Represents the main method.
             </summary>
             <param name="args">Arguments of command line.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordTypesConverter">
+            <summary>
+            Represent converter types of FileCabinetRecord.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordTypesConverter.StringConverter(System.String)">
+            <summary>
+            Convert string to correct string.
+            </summary>
+            <param name="input">Input string.</param>
+            <returns>Tuple with convert info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordTypesConverter.DateTimeConverter(System.String)">
+            <summary>
+            Convert string to DateTime.
+            </summary>
+            <param name="input">Input string.</param>
+            <returns>Tuple with convert info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordTypesConverter.ShortConverter(System.String)">
+            <summary>
+            Convert string to short.
+            </summary>
+            <param name="input">Input string.</param>
+            <returns>Tuple with convert info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordTypesConverter.DecimalConverter(System.String)">
+            <summary>
+            Convert string to decimal.
+            </summary>
+            <param name="input">Input string.</param>
+            <returns>Tuple with convert info.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordTypesConverter.CharConverter(System.String)">
+            <summary>
+            Convert string to char.
+            </summary>
+            <param name="input">Input string.</param>
+            <returns>Tuple with convert info.</returns>
         </member>
     </members>
 </doc>

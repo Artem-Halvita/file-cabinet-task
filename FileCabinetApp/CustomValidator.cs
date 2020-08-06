@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -9,46 +8,112 @@ namespace FileCabinetApp
     /// </summary>
     internal class CustomValidator : IRecordValidator
     {
+        private static CultureInfo cultureInfo = new CultureInfo("en-US");
+
         /// <summary>
-        /// Validate parameters.
+        /// Validate first name.
         /// </summary>
-        /// <param name="record">Person's record.</param>
-        public void ValidateParameters(FileCabinetRecord record)
+        /// <param name="firstName">Person's first name.</param>
+        /// <returns>Tuple with validation info.</returns>
+        public Tuple<bool, string> FirstNameValidator(string firstName)
         {
-            if (record == null)
+            var firstNameTuple = Tuple.Create(false, firstName);
+
+            if (firstName.Length >= 2 && firstName.Length <= 10)
             {
-                throw new ArgumentNullException(nameof(record), "Argument is null");
+                firstNameTuple = Tuple.Create(true, firstName);
             }
 
-            if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < 3 || record.FirstName.Length > 10)
+            return firstNameTuple;
+        }
+
+        /// <summary>
+        /// Validate last name.
+        /// </summary>
+        /// <param name="lastName">Person's last name.</param>
+        /// <returns>Tuple with validation info.</returns>
+        public Tuple<bool, string> LastNameValidator(string lastName)
+        {
+            var lastNameTuple = Tuple.Create(false, lastName);
+
+            if (lastName.Length >= 2 && lastName.Length <= 10)
             {
-                throw new ArgumentException("First name less than 3 or more than 10 characters");
+                lastNameTuple = Tuple.Create(true, lastName);
             }
 
-            if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < 3 || record.LastName.Length > 20)
+            return lastNameTuple;
+        }
+
+        /// <summary>
+        /// Validate date of birth.
+        /// </summary>
+        /// <param name="dateOfBirth">Person's date of birth.</param>
+        /// <returns>Tuple with validation info.</returns>
+        public Tuple<bool, string> DateOfBirthValidator(DateTime dateOfBirth)
+        {
+            string dateOfBirthString = Convert.ToString(dateOfBirth, cultureInfo);
+            var dateOfBirthTuple = Tuple.Create(false, dateOfBirthString);
+
+            if (dateOfBirth > new DateTime(1950, 1, 1) && dateOfBirth < new DateTime(2010, 1, 1))
             {
-                throw new ArgumentException("Last name less than 3 or more than 20 characters");
+                dateOfBirthTuple = Tuple.Create(true, dateOfBirthString);
             }
 
-            if (record.DateOfBirth <= new DateTime(1960, 1, 1) || record.DateOfBirth >= new DateTime(2010, 1, 1))
+            return dateOfBirthTuple;
+        }
+
+        /// <summary>
+        /// Validate age.
+        /// </summary>
+        /// <param name="age">Person's age.</param>
+        /// <returns>Tuple with validation info.</returns>
+        public Tuple<bool, string> AgeValidator(short age)
+        {
+            string ageString = Convert.ToString(age, cultureInfo);
+            var ageTuple = Tuple.Create(false, ageString);
+
+            if (age > 12 && age <= 60)
             {
-                throw new ArgumentException("Input correct date");
+                ageTuple = Tuple.Create(true, ageString);
             }
 
-            if (record.Age <= 18 || record.Age >= 60)
+            return ageTuple;
+        }
+
+        /// <summary>
+        /// Validate money.
+        /// </summary>
+        /// <param name="money">Person's money.</param>
+        /// <returns>Tuple with validation info.</returns>
+        public Tuple<bool, string> MoneyValidator(decimal money)
+        {
+            string moneyString = Convert.ToString(money, cultureInfo);
+            var moneyTuple = Tuple.Create(false, moneyString);
+
+            if (money > -100000)
             {
-                throw new ArgumentException("Age less than 12 or more than 99 years");
+                moneyTuple = Tuple.Create(true, moneyString);
             }
 
-            if (record.Money < -100000)
+            return moneyTuple;
+        }
+
+        /// <summary>
+        /// Validate letter.
+        /// </summary>
+        /// <param name="letter">Person's letter.</param>
+        /// <returns>Tuple with validation info.</returns>
+        public Tuple<bool, string> LetterValidator(char letter)
+        {
+            string letterString = Convert.ToString(letter, cultureInfo);
+            var letterTuple = Tuple.Create(false, letterString);
+
+            if (char.IsLetter(letter))
             {
-                throw new ArgumentException("Money must be greater than -100000");
+                letterTuple = Tuple.Create(true, letterString);
             }
 
-            if (!char.IsLetter(record.Letter))
-            {
-                throw new ArgumentException("Must be a letter");
-            }
+            return letterTuple;
         }
     }
 }

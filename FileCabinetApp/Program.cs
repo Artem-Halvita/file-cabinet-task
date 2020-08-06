@@ -41,7 +41,8 @@ namespace FileCabinetApp
             new string[] { "dateOfBirth" },
         };
 
-        private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
+        private static IFileCabinetService fileCabinetService = new FileCabinetService();
+        private static IRecordValidator recordValidator = new DefaultValidator();
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace FileCabinetApp
 
             if (args != null && args.Length > 0 && (args[0] == "--validation-rules=custom" || (args[0] == "-v" && string.Compare(args[1], "custom", StringComparison.OrdinalIgnoreCase) == 0)))
             {
-                fileCabinetService = new FileCabinetService(new CustomValidator());
+                recordValidator = new CustomValidator();
                 Console.WriteLine("Using custom validation rules.");
             }
 
@@ -148,90 +149,37 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            int id = default;
-            bool done = false;
+            var typesConverter = new RecordTypesConverter();
 
-            while (!done)
+            Console.Write("First name: ");
+            string firstName = ReadInput(typesConverter.StringConverter, recordValidator.FirstNameValidator);
+
+            Console.Write("Last name: ");
+            string lastName = ReadInput(typesConverter.StringConverter, recordValidator.LastNameValidator);
+
+            Console.Write("Date of birth: ");
+            DateTime dateOfBirth = ReadInput(typesConverter.DateTimeConverter, recordValidator.DateOfBirthValidator);
+
+            Console.Write("Age: ");
+            short age = ReadInput(typesConverter.ShortConverter, recordValidator.AgeValidator);
+
+            Console.Write("Money: ");
+            decimal money = ReadInput(typesConverter.DecimalConverter, recordValidator.MoneyValidator);
+
+            Console.Write("Any letter: ");
+            char letter = ReadInput(typesConverter.CharConverter, recordValidator.LetterValidator);
+
+            var record = new FileCabinetRecord()
             {
-                Console.Write("First name: ");
-                string firstName = Console.ReadLine();
-                while (string.IsNullOrWhiteSpace(firstName))
-                {
-                    Console.WriteLine("Incorrect entry. Try again.");
-                    Console.Write("First name: ");
-                    firstName = Console.ReadLine();
-                }
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Age = age,
+                Money = money,
+                Letter = letter,
+            };
 
-                Console.Write("Last name: ");
-                string lastName = Console.ReadLine();
-                while (string.IsNullOrWhiteSpace(lastName))
-                {
-                    Console.WriteLine("Incorrect entry. Try again.");
-                    Console.Write("Last name: ");
-                    lastName = Console.ReadLine();
-                }
-
-                Console.Write("Date of birth: ");
-                string dateInput = Console.ReadLine();
-                DateTime dateOfBirth;
-                while (!DateTime.TryParse(dateInput, out dateOfBirth))
-                {
-                    Console.WriteLine("Incorrect entry. Try again.");
-                    Console.Write("Date of birth: ");
-                    dateInput = Console.ReadLine();
-                }
-
-                Console.Write("Age: ");
-                string ageInput = Console.ReadLine();
-                short age;
-                while (!short.TryParse(ageInput, out age))
-                {
-                    Console.WriteLine("Incorrect entry. Try again.");
-                    Console.Write("Age: ");
-                    ageInput = Console.ReadLine();
-                }
-
-                Console.Write("Money: ");
-                string moneyInput = Console.ReadLine();
-                decimal money;
-                while (!decimal.TryParse(moneyInput, out money))
-                {
-                    Console.WriteLine("Incorrect entry. Try again.");
-                    Console.Write("Money: ");
-                    moneyInput = Console.ReadLine();
-                }
-
-                Console.Write("Any letter: ");
-                string letterInput = Console.ReadLine();
-                char letter;
-                while (!char.TryParse(letterInput, out letter))
-                {
-                    Console.WriteLine("Incorrect entry. Try again.");
-                    Console.Write("Letter: ");
-                    letterInput = Console.ReadLine();
-                }
-
-                var record = new FileCabinetRecord()
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    DateOfBirth = dateOfBirth,
-                    Age = age,
-                    Money = money,
-                    Letter = letter,
-                };
-
-                try
-                {
-                    id = fileCabinetService.CreateRecord(record);
-                    done = true;
-                }
-                catch (ArgumentException exception)
-                {
-                    Console.WriteLine(exception.Message);
-                    Console.WriteLine("Try again.");
-                }
-            }
+            int id = fileCabinetService.CreateRecord(record);
 
             Console.WriteLine($"Record #{id} is created.");
         }
@@ -248,68 +196,29 @@ namespace FileCabinetApp
 
         private static void Edit(string parameters)
         {
-            int id;
-            if (!string.IsNullOrEmpty(parameters) && int.TryParse(parameters, out id))
+            if (!string.IsNullOrEmpty(parameters) && int.TryParse(parameters, out int id))
             {
                 if (id > 0 && id <= fileCabinetService.GetStat())
                 {
+                    var typesConverter = new RecordTypesConverter();
+
                     Console.Write("First name: ");
-                    string firstName = Console.ReadLine();
-                    while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
-                    {
-                        Console.WriteLine("Incorrect entry. Try again.");
-                        Console.Write("First name: ");
-                        firstName = Console.ReadLine();
-                    }
+                    string firstName = ReadInput(typesConverter.StringConverter, recordValidator.FirstNameValidator);
 
                     Console.Write("Last name: ");
-                    string lastName = Console.ReadLine();
-                    while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-                    {
-                        Console.WriteLine("Incorrect entry. Try again.");
-                        Console.Write("Last name: ");
-                        lastName = Console.ReadLine();
-                    }
+                    string lastName = ReadInput(typesConverter.StringConverter, recordValidator.LastNameValidator);
 
                     Console.Write("Date of birth: ");
-                    string dateInput = Console.ReadLine();
-                    DateTime dateOfBirth;
-                    while (!DateTime.TryParse(dateInput, out dateOfBirth) || dateOfBirth <= new DateTime(1950, 1, 1) || dateOfBirth >= DateTime.Now)
-                    {
-                        Console.WriteLine("Incorrect entry. Try again.");
-                        Console.Write("Date of birth: ");
-                        dateInput = Console.ReadLine();
-                    }
+                    DateTime dateOfBirth = ReadInput(typesConverter.DateTimeConverter, recordValidator.DateOfBirthValidator);
 
                     Console.Write("Age: ");
-                    string ageInput = Console.ReadLine();
-                    short age;
-                    while (!short.TryParse(ageInput, out age) || age < 12 || age > 99)
-                    {
-                        Console.WriteLine("Incorrect entry. Try again.");
-                        Console.Write("Age: ");
-                        ageInput = Console.ReadLine();
-                    }
+                    short age = ReadInput(typesConverter.ShortConverter, recordValidator.AgeValidator);
 
                     Console.Write("Money: ");
-                    string moneyInput = Console.ReadLine();
-                    decimal money;
-                    while (!decimal.TryParse(moneyInput, out money) || money < 0)
-                    {
-                        Console.WriteLine("Incorrect entry. Try again.");
-                        Console.Write("Money: ");
-                        moneyInput = Console.ReadLine();
-                    }
+                    decimal money = ReadInput(typesConverter.DecimalConverter, recordValidator.MoneyValidator);
 
                     Console.Write("Any letter: ");
-                    string letterInput = Console.ReadLine();
-                    char letter;
-                    while (!char.TryParse(letterInput, out letter) || !char.IsLetter(letter))
-                    {
-                        Console.WriteLine("Incorrect entry. Try again.");
-                        Console.Write("Letter: ");
-                        letterInput = Console.ReadLine();
-                    }
+                    char letter = ReadInput(typesConverter.CharConverter, recordValidator.LetterValidator);
 
                     var newRecord = new FileCabinetRecord()
                     {
@@ -370,6 +279,35 @@ namespace FileCabinetApp
             {
                 Console.WriteLine("Enter property and query.");
             }
+        }
+
+        private static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
+        {
+            do
+            {
+                T value;
+
+                var input = Console.ReadLine();
+                var conversionResult = converter(input);
+
+                if (!conversionResult.Item1)
+                {
+                    Console.WriteLine($"Conversion failed: {conversionResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                value = conversionResult.Item3;
+
+                var validationResult = validator(value);
+                if (!validationResult.Item1)
+                {
+                    Console.WriteLine($"Validation failed: {validationResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                return value;
+            }
+            while (true);
         }
     }
 }
