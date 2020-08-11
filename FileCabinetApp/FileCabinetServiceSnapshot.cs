@@ -25,5 +25,17 @@ namespace FileCabinetApp
             }
         }
 
+        public void SaveToXml(StreamWriter streamWriter)
+        {
+            var document = new XDocument(new XElement("records"));
+            var xmlWriter = new FileCabinetRecordXmlWriter(document);
+
+            foreach (var record in records)
+            {
+                xmlWriter.Write(record);
+            }
+
+            document.Save(streamWriter);
+        }
     }
 }

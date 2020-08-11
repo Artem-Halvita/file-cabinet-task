@@ -47,6 +47,7 @@ namespace FileCabinetApp
         private static string[][] exportTypes = new string[][]
         {
             new string[] { "csv" },
+            new string[] { "xml" },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -391,5 +392,13 @@ namespace FileCabinetApp
                 }
             }
 
+            void ExportToXml(string filePath)
+            {
+                using (var streamWriter = new StreamWriter(filePath))
+                {
+                    fileCabinetService.MakeSnapshot().SaveToXml(streamWriter);
+                }
+            }
+        }
     }
 }
