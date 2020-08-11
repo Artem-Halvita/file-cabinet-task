@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Xml.Linq;
 
 namespace FileCabinetApp
 {
@@ -25,6 +27,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("export", Export),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -41,7 +44,12 @@ namespace FileCabinetApp
             new string[] { "dateOfBirth" },
         };
 
-        private static IFileCabinetService fileCabinetService = new FileCabinetService();
+        private static string[][] exportTypes = new string[][]
+        {
+            new string[] { "csv" },
+        };
+
+        private static FileCabinetService fileCabinetService = new FileCabinetService();
         private static IRecordValidator recordValidator = new DefaultValidator();
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
@@ -251,6 +259,7 @@ namespace FileCabinetApp
             {
                 var index = Array.FindIndex(findProperties, 0, findProperties.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters.Split(' ')[0], StringComparison.InvariantCultureIgnoreCase));
 
+                // Refactor condition statements
                 if (index == 0)
                 {
                     foreach (var item in fileCabinetService.FindByFirstName(parameters.Split(' ')[1]))
@@ -309,5 +318,78 @@ namespace FileCabinetApp
             }
             while (true);
         }
+
+        private static void Export(string parameters)
+        {
+            // TODO : Process parameters
+            var index = Array.FindIndex(exportTypes, 0, exportTypes.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters.Split(' ')[0], StringComparison.InvariantCultureIgnoreCase));
+
+            if (!string.IsNullOrEmpty(parameters))
+            {
+                string filePath = parameters.Split(' ')[1];
+
+                if (index == 0)
+                {
+                    var fileInfo = new FileInfo(filePath);
+
+                    if (fileInfo.Exists)
+                    {
+                        Console.WriteLine($"File is exist - rewrite {filePath}, [Y/n]");
+                        string answerRewrite = Console.ReadLine();
+
+                        if (answerRewrite == "Y" || answerRewrite == "y")
+                        {
+                            Export(filePath);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Export(filePath);
+                    }
+                }
+
+                if (index == 1)
+                {
+                    var fileInfo = new FileInfo(filePath);
+
+                    if (fileInfo.Exists)
+                    {
+                        Console.WriteLine($"File is exist - rewrite {filePath}, [Y/n]");
+                        string answerRewrite = Console.ReadLine();
+
+                        if (answerRewrite == "Y" || answerRewrite == "y")
+                        {
+                            ExportToXml(filePath);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        ExportToXml(filePath);
+                    }
+                }
+
+                Console.WriteLine($"All records are exported to file {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("Enter type of exported file");
+            }
+
+            void Export(string filePath)
+            {
+                using (var streamWriter = new StreamWriter(filePath))
+                {
+                    fileCabinetService.MakeSnapshot().SaveToCsv(streamWriter);
+                }
+            }
+
     }
 }

@@ -159,5 +159,10 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        public FileCabinetServiceSnapshot MakeSnapshot()
+        {
+            return new FileCabinetServiceSnapshot(list);
+        }
     }
 }
