@@ -98,6 +98,58 @@
             <param name="letter">Person's letter.</param>
             <returns>Tuple with validation info.</returns>
         </member>
+        <member name="T:FileCabinetApp.FileCabinetMemoryService">
+            <summary>
+            Represent record service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Represent create of record.
+            </summary>
+            <param name="record">Record info of the person.</param>
+            <returns>Identifier of person.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.EditRecord(System.Int32,FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Represent edit of the record.
+            </summary>
+            <param name="id">Identifier of the person.</param>
+            <param name="newRecord">Record info of the person.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
+            <summary>
+            Find records by first name.
+            </summary>
+            <param name="firstName">Person's name.</param>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByLastName(System.String)">
+            <summary>
+            Find records by last name.
+            </summary>
+            <param name="lastName">Person's surname.</param>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByDateOfBirth(System.String)">
+            <summary>
+            Find records by date of birth.
+            </summary>
+            <param name="inputDateOfBirth">Person's date of birth.</param>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecords">
+            <summary>
+            Represent all records.
+            </summary>
+            <returns>Array of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetStat">
+            <summary>
+            Represent count of records.
+            </summary>
+            <returns>Count of records.</returns>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Represent the model of the record.
@@ -158,58 +210,6 @@
             <value>
             Person's letter.
             </value>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetService">
-            <summary>
-            Represent record service.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Represent create of record.
-            </summary>
-            <param name="record">Record info of the person.</param>
-            <returns>Identifier of person.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Represent edit of the record.
-            </summary>
-            <param name="id">Identifier of the person.</param>
-            <param name="newRecord">Record info of the person.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Find records by first name.
-            </summary>
-            <param name="firstName">Person's name.</param>
-            <returns>Array of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Find records by last name.
-            </summary>
-            <param name="lastName">Person's surname.</param>
-            <returns>Array of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByDateOfBirth(System.String)">
-            <summary>
-            Find records by date of birth.
-            </summary>
-            <param name="inputDateOfBirth">Person's date of birth.</param>
-            <returns>Array of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
-            <summary>
-            Represent all records.
-            </summary>
-            <returns>Array of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
-            <summary>
-            Represent count of records.
-            </summary>
-            <returns>Count of records.</returns>
         </member>
         <member name="T:FileCabinetApp.IFileCabinetService">
             <summary>

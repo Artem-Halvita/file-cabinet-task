@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Xml.Linq;
+using CommandLine;
 
 namespace FileCabinetApp
 {
@@ -50,7 +50,7 @@ namespace FileCabinetApp
             new string[] { "xml" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService();
         private static IRecordValidator recordValidator = new DefaultValidator();
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
@@ -62,23 +62,32 @@ namespace FileCabinetApp
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
 
-            // TODO : Improve validation-rules command line
-            if (args == null || !(args.Length > 0))
-            {
-                Console.WriteLine("Using default validation rules.");
-            }
-            else if (args != null &&
-                    (args[0] == "--validation-rules=default" ||
-                    (args[0] == "-v" && string.Compare(args[1], "default", StringComparison.OrdinalIgnoreCase) == 0)))
-            {
-                Console.WriteLine("Using default validation rules.");
-            }
+            // TODO : Implement case intensive arguments
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(o =>
+                {
+                    if (o.Validation == "default" || o.Validation == default)
+                    {
+                        Console.WriteLine("Using default validation rules.");
+                    }
 
-            if (args != null && args.Length > 0 && (args[0] == "--validation-rules=custom" || (args[0] == "-v" && string.Compare(args[1], "custom", StringComparison.OrdinalIgnoreCase) == 0)))
-            {
-                recordValidator = new CustomValidator();
-                Console.WriteLine("Using custom validation rules.");
-            }
+                    if (o.Validation == "custom")
+                    {
+                        recordValidator = new CustomValidator();
+                        Console.WriteLine("Using custom validation rules.");
+                    }
+
+                    // default
+                    if (o.Storage == "memory")
+                    {
+                        return;
+                    }
+
+                    if (o.Storage == "file")
+                    {
+                        fileCabinetService = new FileCabinetFileSystemService(new FileStream("cabinet-records.db", FileMode.OpenOrCreate));
+                    }
+                });
 
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
