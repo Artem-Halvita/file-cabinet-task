@@ -6,11 +6,11 @@ using System.Text;
 
 namespace FileCabinetApp
 {
-    internal class FileCabinetFileSystemService : IFileCabinetService
+    internal class FileCabinetFilesystemService : IFileCabinetService
     {
         private FileStream fileStream;
 
-        public FileCabinetFileSystemService(FileStream fileStream)
+        public FileCabinetFilesystemService(FileStream fileStream)
         {
             this.fileStream = fileStream;
         }
