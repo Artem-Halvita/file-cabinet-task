@@ -19,7 +19,7 @@ namespace FileCabinetApp
         {
             fileStream.Write(new byte[2], 0, 2);
 
-            byte[] id = new byte[2];
+            byte[] id = new byte[4];
             Encoding.Default.GetBytes(record.Id.ToString()).CopyTo(id, 0);
             fileStream.Write(id, 0, id.Length);
 
@@ -51,7 +51,7 @@ namespace FileCabinetApp
             Encoding.Default.GetBytes(record.Money.ToString()).CopyTo(money, 0);
             fileStream.Write(money, 0, money.Length);
 
-            byte[] letter = new byte[2];
+            byte[] letter = new byte[1];
             Encoding.Default.GetBytes(record.Letter.ToString()).CopyTo(letter, 0);
             fileStream.Write(letter, 0, letter.Length);
 
