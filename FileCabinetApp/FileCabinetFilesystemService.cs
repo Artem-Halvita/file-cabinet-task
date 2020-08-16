@@ -18,11 +18,14 @@ namespace FileCabinetApp
         // Refactor method
         public int CreateRecord(FileCabinetRecord record)
         {
+            fileStream.Position = fileStream.Length;
+
             fileStream.Write(new byte[2], 0, 2);
 
-            byte[] id = new byte[4];
-            Encoding.Default.GetBytes(record.Id.ToString()).CopyTo(id, 0);
-            fileStream.Write(id, 0, id.Length);
+            byte[] idBytes = new byte[4];
+            int id = GetStat() + 1;
+            Encoding.Default.GetBytes(id.ToString()).CopyTo(idBytes, 0);
+            fileStream.Write(idBytes, 0, idBytes.Length);
 
             byte[] firstName = new byte[120];
             Encoding.Default.GetBytes(record.FirstName).CopyTo(firstName, 0);
