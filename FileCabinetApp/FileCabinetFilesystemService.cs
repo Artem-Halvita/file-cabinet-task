@@ -157,9 +157,10 @@ namespace FileCabinetApp
             return list.AsReadOnly();
         }
 
+        // TODO : Refactor method
         public int GetStat()
         {
-            throw new NotImplementedException();
+            return (int)fileStream.Length / 277;
         }
 
         public FileCabinetServiceSnapshot MakeSnapshot()
