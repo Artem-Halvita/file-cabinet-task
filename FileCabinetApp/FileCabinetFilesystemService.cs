@@ -15,6 +15,7 @@ namespace FileCabinetApp
             this.fileStream = fileStream;
         }
 
+        // Refactor method
         public int CreateRecord(FileCabinetRecord record)
         {
             fileStream.Write(new byte[2], 0, 2);
