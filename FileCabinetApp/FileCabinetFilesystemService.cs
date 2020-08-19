@@ -59,7 +59,7 @@ namespace FileCabinetApp
             Encoding.Default.GetBytes(record.Letter.ToString()).CopyTo(letter, 0);
             fileStream.Write(letter, 0, letter.Length);
 
-            return record.Id;
+            return id;
         }
 
         // TODO : Refator method
