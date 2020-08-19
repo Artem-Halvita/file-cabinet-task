@@ -85,7 +85,7 @@ namespace FileCabinetApp
 
                     if (o.Storage == "file")
                     {
-                        fileCabinetService = new FileCabinetFileSystemService(new FileStream("cabinet-records.db", FileMode.OpenOrCreate));
+                        fileCabinetService = new FileCabinetFilesystemService(new FileStream("cabinet-records.db", FileMode.OpenOrCreate));
                     }
                 });
 
