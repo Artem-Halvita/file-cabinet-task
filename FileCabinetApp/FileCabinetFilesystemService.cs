@@ -152,13 +152,12 @@ namespace FileCabinetApp
                 fileStream.Position = i + 6;
                 byte[] firstNameBytes = new byte[120];
                 fileStream.Read(firstNameBytes, 0, firstNameBytes.Length);
-                string firstName = Encoding.Default.GetString(firstNameBytes);
-                Console.WriteLine(firstName);
+                string firstName = Encoding.Default.GetString(firstNameBytes).Replace("\0", string.Empty);
 
                 fileStream.Position = i + 126;
                 byte[] lastNameBytes = new byte[120];
                 fileStream.Read(lastNameBytes, 0, lastNameBytes.Length);
-                string lastName = Encoding.Default.GetString(lastNameBytes);
+                string lastName = Encoding.Default.GetString(lastNameBytes).Replace("\0", string.Empty);
 
                 fileStream.Position = i + 246;
                 byte[] yearBytes = new byte[4];
