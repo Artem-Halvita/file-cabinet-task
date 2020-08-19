@@ -269,9 +269,80 @@ namespace FileCabinetApp
             return list.AsReadOnly();
         }
 
+        // TODO : Refator method
         public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string inputDateOfBirth)
         {
-            throw new NotImplementedException();
+            var list = new List<FileCabinetRecord>();
+
+            int i = 0;
+
+            while (i < fileStream.Length)
+            {
+                fileStream.Position = i + 246;
+                byte[] yearBytes = new byte[4];
+                fileStream.Read(yearBytes, 0, yearBytes.Length);
+                int year = Convert.ToInt32(Encoding.Default.GetString(yearBytes));
+
+                fileStream.Position = i + 250;
+                byte[] monthBytes = new byte[4];
+                fileStream.Read(monthBytes, 0, monthBytes.Length);
+                int month = Convert.ToInt32(Encoding.Default.GetString(monthBytes));
+
+                fileStream.Position = i + 254;
+                byte[] dayBytes = new byte[4];
+                fileStream.Read(dayBytes, 0, dayBytes.Length);
+                int day = Convert.ToInt32(Encoding.Default.GetString(dayBytes));
+
+                if (Convert.ToDateTime(inputDateOfBirth) == new DateTime(year, month, day))
+                {
+                    fileStream.Position = i + 2;
+                    byte[] idBytes = new byte[4];
+                    fileStream.Read(idBytes, 0, idBytes.Length);
+                    int id = Convert.ToInt32(Encoding.Default.GetString(idBytes));
+
+                    fileStream.Position = i + 6;
+                    byte[] firstNameBytes = new byte[120];
+                    fileStream.Read(firstNameBytes, 0, firstNameBytes.Length);
+                    string firstName = Encoding.Default.GetString(firstNameBytes).Replace("\0", string.Empty);
+
+                    fileStream.Position = i + 126;
+                    byte[] lastNameBytes = new byte[120];
+                    fileStream.Read(lastNameBytes, 0, lastNameBytes.Length);
+                    string lastName = Encoding.Default.GetString(lastNameBytes).Replace("\0", string.Empty);
+
+                    fileStream.Position = i + 258;
+                    byte[] ageBytes = new byte[2];
+                    fileStream.Read(ageBytes, 0, ageBytes.Length);
+                    short age = Convert.ToInt16(Encoding.Default.GetString(ageBytes));
+
+                    fileStream.Position = i + 260;
+                    byte[] moneyBytes = new byte[16];
+                    fileStream.Read(moneyBytes, 0, moneyBytes.Length);
+                    decimal money = Convert.ToDecimal(Encoding.Default.GetString(moneyBytes));
+
+                    fileStream.Position = i + 276;
+                    byte[] letterBytes = new byte[1];
+                    fileStream.Read(letterBytes, 0, letterBytes.Length);
+                    char letter = Convert.ToChar(Encoding.Default.GetString(letterBytes));
+
+                    var record = new FileCabinetRecord()
+                    {
+                        Id = id,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        DateOfBirth = new DateTime(year, month, day),
+                        Age = age,
+                        Money = money,
+                        Letter = letter,
+                    };
+
+                    list.Add(record);
+                }
+
+                i += 277;
+            }
+
+            return list.AsReadOnly();
         }
 
         // TODO : Refator method
