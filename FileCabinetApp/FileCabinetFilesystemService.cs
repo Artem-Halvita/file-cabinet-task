@@ -349,7 +349,6 @@ namespace FileCabinetApp
         // TODO : Refator method
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-
             var list = new List<FileCabinetRecord>();
 
             int i = 0;
