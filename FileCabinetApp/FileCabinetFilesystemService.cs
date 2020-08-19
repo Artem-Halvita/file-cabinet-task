@@ -64,7 +64,59 @@ namespace FileCabinetApp
 
         public void EditRecord(int id, FileCabinetRecord newRecord)
         {
-            throw new NotImplementedException();
+            int i = 0;
+
+            while (i < fileStream.Length)
+            {
+                fileStream.Position = i + 2;
+                byte[] idBytes = new byte[4];
+                fileStream.Read(idBytes, 0, idBytes.Length);
+
+                if (id == Convert.ToInt32(Encoding.Default.GetString(idBytes)))
+                {
+                    fileStream.Position = i + 6;
+                    byte[] firstNameBytes = new byte[120];
+                    Encoding.Default.GetBytes(newRecord.FirstName).CopyTo(firstNameBytes, 0);
+                    fileStream.Write(firstNameBytes, 0, firstNameBytes.Length);
+
+                    fileStream.Position = i + 126;
+                    byte[] lastNameBytes = new byte[120];
+                    Encoding.Default.GetBytes(newRecord.LastName).CopyTo(lastNameBytes, 0);
+                    fileStream.Write(lastNameBytes, 0, lastNameBytes.Length);
+
+                    fileStream.Position = i + 246;
+                    byte[] yearBytes = new byte[4];
+                    Encoding.Default.GetBytes(newRecord.DateOfBirth.Year.ToString()).CopyTo(yearBytes, 0);
+                    fileStream.Write(yearBytes, 0, yearBytes.Length);
+
+                    fileStream.Position = i + 250;
+                    byte[] monthBytes = new byte[4];
+                    Encoding.Default.GetBytes(newRecord.DateOfBirth.Month.ToString()).CopyTo(monthBytes, 0);
+                    fileStream.Write(monthBytes, 0, monthBytes.Length);
+
+                    fileStream.Position = i + 254;
+                    byte[] dayBytes = new byte[4];
+                    Encoding.Default.GetBytes(newRecord.DateOfBirth.Day.ToString()).CopyTo(dayBytes, 0);
+                    fileStream.Write(dayBytes, 0, dayBytes.Length);
+
+                    fileStream.Position = i + 258;
+                    byte[] ageBytes = new byte[2];
+                    Encoding.Default.GetBytes(newRecord.Age.ToString()).CopyTo(ageBytes, 0);
+                    fileStream.Write(ageBytes, 0, ageBytes.Length);
+
+                    fileStream.Position = i + 260;
+                    byte[] moneyBytes = new byte[16];
+                    Encoding.Default.GetBytes(newRecord.Money.ToString()).CopyTo(moneyBytes, 0);
+                    fileStream.Write(moneyBytes, 0, moneyBytes.Length);
+
+                    fileStream.Position = i + 276;
+                    byte[] letterBytes = new byte[1];
+                    Encoding.Default.GetBytes(newRecord.Letter.ToString()).CopyTo(letterBytes, 0);
+                    fileStream.Write(letterBytes, 0, letterBytes.Length);
+                }
+
+                i += 277;
+            }
         }
 
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
