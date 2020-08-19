@@ -15,7 +15,7 @@ namespace FileCabinetApp
             this.fileStream = fileStream;
         }
 
-        // Refactor method
+        // TODO : Refator method
         public int CreateRecord(FileCabinetRecord record)
         {
             fileStream.Position = fileStream.Length;
