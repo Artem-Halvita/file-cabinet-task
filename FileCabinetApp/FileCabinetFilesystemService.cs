@@ -62,6 +62,7 @@ namespace FileCabinetApp
             return record.Id;
         }
 
+        // TODO : Refator method
         public void EditRecord(int id, FileCabinetRecord newRecord)
         {
             int i = 0;
